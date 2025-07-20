@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BuiltLives Matter Fundraiser</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fffdf6;
+      color: #333;
+    }
+
+    header {
+      background: white;
+      padding: 20px 40px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: #111;
+    }
+
+    nav a {
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fef6e9;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .container h2 {
+      color: #6a1b9a;
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .container h3 {
+      font-size: 24px;
+      color: #222;
+      margin-bottom: 20px;
+    }
+
+    .flyer-img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 16px;
+      margin: 20px auto;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 0 auto 20px;
+      max-width: 600px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 16px 40px;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      background: linear-gradient(to right, #fdd9a0, #a0f0dd);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      margin-top: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>BuiltLivesMatter.Org</h1>
+  <nav>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>🧩 BuiltLives Matter Fundraiser 🧩</h2>
+  <h3>Autism Action Gift Basket</h3>
+  <img class="flyer-img" src="https://builtlivesmatter.org/assets/autism-basket-flyer.png" alt="Autism Action Basket">
+  <p>Support inclusion, empowerment, and love for every unique life.</p>
+  <p>Join our mission to uplift lives and bring awareness to Autism with this powerful gift basket.</p>
+  <p>✨ Every purchase goes directly toward our community programs!</p>
+  <a class="button" href="https://buy.stripe.com/4gM3cxcss8s4eqJcpR08g00" target="_blank">BUILD</a>
+</div>
+
+<footer>
+  © 2025 BuiltLives Matter · Powered by Halal Lyfestyle LLC
+</footer>
+
+</body>
+</html>
