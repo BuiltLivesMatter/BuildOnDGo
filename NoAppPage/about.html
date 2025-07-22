@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About | Built Lives Matter</title>
+  <style>
+
+section {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2em;
+  margin: 2em auto;
+  border-radius: 12px;
+  max-width: 900px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  flex-wrap: wrap;
+  margin-top: 1em;
+}
+
+nav a {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  padding: 0.6em 1.2em;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+nav a:hover {
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  transform: translateY(-2px);
+}
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #87ceeb, #ffe4b5, #fcd5ce);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #111;
+}
+
+header, footer {
+  background-color: rgba(31, 41, 55, 0.8);
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 1em 0;
+}
+
+nav a {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #1f2937;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  border: 2px solid white;
+  box-shadow: 0 0 6px white;
+  transition: 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #fcd5ce;
+  color: #000;
+  text-decoration: none;
+  box-shadow: 0 0 10px #fff;
+}
+
+section {
+  background: rgba(255, 255, 255, 0.3);
+  margin: 1.5em;
+  padding: 1.5em;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #87ceeb, #ffe4b5, #fcd5ce);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #111;
+}
+
+header, footer {
+  background-color: rgba(31, 41, 55, 0.8);
+  color: white;
+}
+
+nav a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 1em;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.card, .game-board, canvas {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4) inset;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+}
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #111;
+    }
+
+    .navbar {
+      background-color: #1f2937;
+      padding: 1em 2em;
+      color: white;
+      text-align: center;
+    }
+
+    .navbar h1 {
+      font-size: 1.8em;
+      margin: 0;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3em 1em 1em;
+      background-color: #f3f4f6;
+    }
+
+    .hero h2 {
+      font-size: 2.2em;
+      margin-bottom: 0.3em;
+    }
+
+    .hero p {
+      font-size: 1.1em;
+      color: #555;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .banner {
+      text-align: center;
+      margin: 2em 0;
+    }
+
+    .banner img {
+      max-width: 90%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .section {
+      max-width: 800px;
+      margin: auto;
+      padding: 2em 1em;
+    }
+
+    .section h3 {
+      font-size: 1.5em;
+      margin-top: 1em;
+      color: #1f2937;
+    }
+
+    .section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .section li {
+      padding-left: 1.5em;
+      position: relative;
+      margin-bottom: 1em;
+    }
+
+    .section li::before {
+      content: '✔';
+      color: #10b981;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    footer {
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+      padding: 1em;
+      margin-top: 3em;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Navbar -->
+  <div class="navbar">
+    <h1>Built Lives Matter</h1>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h2>About Us</h2>
+    <p>Built Lives Matter is a movement dedicated to uplifting the lives of entrepreneurs, builders, and underserved communities through purpose, education, and empowerment.</p>
+  </div>
+
+  <!-- Banner Image -->
+  <div class="banner">
+    <img src="IMG_1722.jpeg" alt="Built Lives Matter Banner" />
+  </div>
+
+  <!-- Mission Section -->
+  <div class="section">
+    <h3>Our Mission</h3>
+    <p>To empower those who build — entrepreneurs, creatives, community leaders — by providing them with opportunities, tools, and platforms that foster growth, sustainability, and impact.</p>
+
+    <h3>Our Vision</h3>
+    <p>We envision a world where every individual, regardless of background, has the power to build a meaningful, legacy-driven life — supported by community and fueled by purpose.</p>
+
+    <h3>Our Core Values</h3>
+    <ul>
+      <li>Empowerment — Fueling people with knowledge and opportunity</li>
+      <li>Faith & Purpose — Anchoring every action in intention and legacy</li>
+      <li>Community — Building strong networks of shared support</li>
+      <li>Equity — Ensuring access to energy, education, and growth</li>
+      <li>Accountability — Leading with transparency and trust</li>
+    </ul>
+  </div>
+
+<footer style="background-color: #111; color: white; text-align: center; padding: 20px 0;">
+  <!-- Existing footer content remains unchanged -->
+  © 2025 Built Lives Matter • Powered by Halal Lyfestyle LLC • #BuildInspireGrow
+
+  <div style="margin-top: 20px;">
+    <a href="https://www.youtube.com/@lyfestylehalal" target="_blank" 
+       style="font-size: 18px; color: #fff; background-color: #FF0000; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+      🎥 Visit Our YouTube Channel
+    </a>
+  </div>
+</footer>
+
+<div style="text-align: center; margin-top: 2em;">
+  <a href="index.html" style="
+    display: inline-block;
+    background: linear-gradient(to right, #ff9966, #ff5e62);
+    color: white;
+    padding: 0.6em 1.4em;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background 0.3s;
+  ">🏠 Return to Home</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tetris Game</title>
+  <style>
+
+section {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2em;
+  margin: 2em auto;
+  border-radius: 12px;
+  max-width: 900px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  flex-wrap: wrap;
+  margin-top: 1em;
+}
+
+nav a {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  padding: 0.6em 1.2em;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+nav a:hover {
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  transform: translateY(-2px);
+}
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #87ceeb, #ffe4b5, #fcd5ce);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #111;
+}
+
+header, footer {
+  background-color: rgba(31, 41, 55, 0.8);
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 1em 0;
+}
+
+nav a {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #1f2937;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  border: 2px solid white;
+  box-shadow: 0 0 6px white;
+  transition: 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #fcd5ce;
+  color: #000;
+  text-decoration: none;
+  box-shadow: 0 0 10px #fff;
+}
+
+section {
+  background: rgba(255, 255, 255, 0.3);
+  margin: 1.5em;
+  padding: 1.5em;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #87ceeb, #ffe4b5, #fcd5ce);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #111;
+}
+
+header, footer {
+  background-color: rgba(31, 41, 55, 0.8);
+  color: white;
+}
+
+nav a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 1em;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.card, .game-board, canvas {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4) inset;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+}
+
+    canvas { background: #f0f0f0; display: block; margin: 0 auto; border: 2px solid #1f2937; }
+    body { font-family: 'Segoe UI', sans-serif; background: #fff; text-align: center; padding: 1em; }
+  </style>
+</head>
+<body>
+  <h1>Tetris</h1>
+  <canvas id="tetris" width="200" height="400"></canvas>
+  <p id="tetris-score">Score: 0</p>
+
+  <script>
+    const canvas = document.getElementById('tetris');
+    const ctx = canvas.getContext('2d');
+    const ROWS = 20;
+    const COLS = 10;
+    const BLOCK_SIZE = 20;
+    let score = 0;
+
+    const arena = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+
+    function drawMatrix(matrix, offset) {
+      matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+          if (value !== 0) {
+            ctx.fillStyle = 'blue';
+            ctx.fillRect((x + offset.x) * BLOCK_SIZE, (y + offset.y) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+          }
+        });
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawMatrix(player.matrix, player.pos);
+    }
+
+    function merge(arena, player) {
+      player.matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+          if (value !== 0) {
+            arena[y + player.pos.y][x + player.pos.x] = value;
+          }
+        });
+      });
+    }
+
+    function collide(arena, player) {
+      const [m, o] = [player.matrix, player.pos];
+      for (let y = 0; y < m.length; ++y) {
+        for (let x = 0; x < m[y].length; ++x) {
+          if (m[y][x] !== 0 &&
+              (arena[y + o.y] &&
+               arena[y + o.y][x + o.x]) !== 0) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    function playerReset() {
+      player.matrix = [[1, 1], [1, 1]];
+      player.pos.y = 0;
+      player.pos.x = (COLS / 2 | 0) - (player.matrix[0].length / 2 | 0);
+      if (collide(arena, player)) {
+        arena.forEach(row => row.fill(0));
+        score = 0;
+        document.getElementById('tetris-score').innerText = 'Score: 0';
+      }
+    }
+
+    function playerDrop() {
+      player.pos.y++;
+      if (collide(arena, player)) {
+        player.pos.y--;
+        merge(arena, player);
+        arenaSweep();
+        playerReset();
+      }
+      dropCounter = 0;
+    }
+
+    function arenaSweep() {
+      outer: for (let y = arena.length - 1; y >= 0; --y) {
+        for (let x = 0; x < arena[y].length; ++x) {
+          if (arena[y][x] === 0) continue outer;
+        }
+        const row = arena.splice(y, 1)[0].fill(0);
+        arena.unshift(row);
+        score += 10;
+        document.getElementById('tetris-score').innerText = 'Score: ' + score;
+        parent.postMessage({ type: 'tetrisPoints', points: score }, '*');
+      }
+    }
+
+    let dropCounter = 0;
+    let lastTime = 0;
+    function update(time = 0) {
+      const deltaTime = time - lastTime;
+      lastTime = time;
+      dropCounter += deltaTime;
+      if (dropCounter > 1000) {
+        playerDrop();
+      }
+      draw();
+      requestAnimationFrame(update);
+    }
+
+    const player = {
+      pos: {x: 0, y: 0},
+      matrix: [[1, 1], [1, 1]]
+    };
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') player.pos.x--;
+      else if (e.key === 'ArrowRight') player.pos.x++;
+      else if (e.key === 'ArrowDown') playerDrop();
+    });
+
+    playerReset();
+    update();
+  </script>
+
+<div style="text-align: center; margin-top: 2em;">
+  <a href="index.html" style="
+    display: inline-block;
+    background: linear-gradient(to right, #ff9966, #ff5e62);
+    color: white;
+    padding: 0.6em 1.4em;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background 0.3s;
+  ">🏠 Return to Home</a>
+</div>
+
+</body>
+</html>

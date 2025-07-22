@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Animal Memory Game</title>
+  <style>
+
+section {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2em;
+  margin: 2em auto;
+  border-radius: 12px;
+  max-width: 900px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  flex-wrap: wrap;
+  margin-top: 1em;
+}
+
+nav a {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  padding: 0.6em 1.2em;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+nav a:hover {
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  transform: translateY(-2px);
+}
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #87ceeb, #ffe4b5, #fcd5ce);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #111;
+}
+
+header, footer {
+  background-color: rgba(31, 41, 55, 0.8);
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 1em 0;
+}
+
+nav a {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #1f2937;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  border: 2px solid white;
+  box-shadow: 0 0 6px white;
+  transition: 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #fcd5ce;
+  color: #000;
+  text-decoration: none;
+  box-shadow: 0 0 10px #fff;
+}
+
+section {
+  background: rgba(255, 255, 255, 0.3);
+  margin: 1.5em;
+  padding: 1.5em;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom right, #87ceeb, #ffe4b5, #fcd5ce);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-gap: 15px;
+      justify-content: center;
+    }
+
+    .card {
+      width: 100px;
+      height: 100px;
+      font-size: 2rem;
+      background: #fff;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s;
+    }
+
+    .card.revealed {
+      background: #fef08a;
+    }
+
+    .card.matched {
+      background: #10b981;
+      color: white;
+      box-shadow: 0 0 12px #10b981;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #10b981;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🐾 Animal Match Game</h1>
+  <div class="game-board" id="gameBoard"></div>
+  <p class="message" id="winMessage">🎉 You matched all the animals!</p>
+
+  <script>
+    const emojis = ['🐶','🐱','🐰','🦊','🐻','🐼','🐵','🦁'];
+    let cards = [...emojis, ...emojis];
+    let firstCard, secondCard;
+    let lockBoard = false;
+    let matchedCount = 0;
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function createBoard() {
+      shuffle(cards);
+      const board = document.getElementById('gameBoard');
+      cards.forEach((emoji, index) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.dataset.emoji = emoji;
+        card.dataset.index = index;
+        board.appendChild(card);
+      });
+    }
+
+    function checkWin() {
+      if (matchedCount === cards.length) {
+        document.getElementById('winMessage').style.display = 'block';
+        parent.postMessage({ type: 'memoryPoints', points: 80 }, '*');
+      }
+    }
+
+    function handleCardClick(e) {
+      const card = e.target;
+      if (
+        lockBoard ||
+        card === firstCard ||
+        card.classList.contains('matched')
+      ) return;
+
+      card.textContent = card.dataset.emoji;
+      card.classList.add('revealed');
+
+      if (!firstCard) {
+        firstCard = card;
+      } else {
+        secondCard = card;
+        lockBoard = true;
+
+        if (firstCard.dataset.emoji === secondCard.dataset.emoji) {
+          firstCard.classList.add('matched');
+          secondCard.classList.add('matched');
+          matchedCount += 2;
+          resetTurn();
+          checkWin();
+        } else {
+          setTimeout(() => {
+            firstCard.textContent = '';
+            secondCard.textContent = '';
+            firstCard.classList.remove('revealed');
+            secondCard.classList.remove('revealed');
+            resetTurn();
+          }, 800);
+        }
+      }
+    }
+
+    function resetTurn() {
+      [firstCard, secondCard] = [null, null];
+      lockBoard = false;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      createBoard();
+      document.querySelectorAll('.card').forEach(card =>
+        card.addEventListener('click', handleCardClick)
+      );
+    });
+  </script>
+
+<div style="text-align: center; margin-top: 2em;">
+  <a href="index.html" style="
+    display: inline-block;
+    background: linear-gradient(to right, #ff9966, #ff5e62);
+    color: white;
+    padding: 0.6em 1.4em;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background 0.3s;
+  ">🏠 Return to Home</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Play to Gift | Built Lives Matter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+
+section {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2em;
+  margin: 2em auto;
+  border-radius: 12px;
+  max-width: 900px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  flex-wrap: wrap;
+  margin-top: 1em;
+}
+
+nav a {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  padding: 0.6em 1.2em;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+nav a:hover {
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  transform: translateY(-2px);
+}
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #87ceeb, #ffe4b5, #fcd5ce);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #111;
+}
+
+header, footer {
+  background-color: rgba(31, 41, 55, 0.8);
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 1em 0;
+}
+
+nav a {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #1f2937;
+  font-weight: bold;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  border: 2px solid white;
+  box-shadow: 0 0 6px white;
+  transition: 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #fcd5ce;
+  color: #000;
+  text-decoration: none;
+  box-shadow: 0 0 10px #fff;
+}
+
+section {
+  background: rgba(255, 255, 255, 0.3);
+  margin: 1.5em;
+  padding: 1.5em;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #87ceeb, #ffe4b5, #fcd5ce);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #111;
+}
+
+header, footer {
+  background-color: rgba(31, 41, 55, 0.8);
+  color: white;
+}
+
+nav a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 1em;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.card, .game-board, canvas {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4) inset;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+}
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #111;
+    }
+
+    header {
+      background-color: #1f2937;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .section {
+      padding: 2em;
+      text-align: center;
+    }
+
+    iframe {
+      width: 100%;
+      max-width: 500px;
+      height: 500px;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      margin-bottom: 2em;
+    }
+
+    .points {
+      font-size: 1.2em;
+      margin: 1em 0;
+    }
+
+    .reward {
+      background: #10b981;
+      color: white;
+      padding: 1em;
+      border-radius: 8px;
+      display: none;
+      max-width: 500px;
+      margin: 0 auto 2em;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 1em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Play to Gift</h1>
+    <p>Earn points while playing fun games and get 25% OFF a second Autism Action Gift Basket to donate to a child with autism</p>
+  </header>
+
+  <div class="section">
+    <h2>🎯 Memory Match Game</h2>
+    <iframe src="memory-game.html"></iframe>
+  </div>
+
+  <div class="section">
+    <h2>🎮 Classic Tetris</h2>
+    <iframe src="tetris-game.html"></iframe>
+  </div>
+
+  <div class="section reward" id="rewardBox">
+    🎁 You've reached 300 points! <a href="https://donate.stripe.com/28E3cx3VWgYA4Q9exZ08g01" target="_blank" style="color: #fff; text-decoration: underline;">Click here to redeem 25% OFF your 2nd Autism Action Gift Basket</a>
+  </div>
+
+  <footer>
+    © 2025 Built Lives Matter • Powered by Halal Lyfestyle LLC
+  </footer>
+
+  <script>
+    let totalPoints = 0;
+    let tetrisPoints = 0;
+    let memoryPoints = 0;
+
+    // This section assumes the embedded iframes post message when line completed (tetris) or match made (memory)
+    window.addEventListener("message", (event) => {
+      if (event.data.type === "memoryPoints") {
+        memoryPoints = event.data.points;
+      }
+      if (event.data.type === "tetrisPoints") {
+        tetrisPoints = event.data.points;
+      }
+
+      totalPoints = memoryPoints + tetrisPoints;
+
+      if (totalPoints >= 300) {
+        document.getElementById("rewardBox").style.display = "block";
+      }
+    });
+  </script>
+
+<div style="text-align: center; margin-top: 2em;">
+  <a href="index.html" style="
+    display: inline-block;
+    background: linear-gradient(to right, #ff9966, #ff5e62);
+    color: white;
+    padding: 0.6em 1.4em;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background 0.3s;
+  ">🏠 Return to Home</a>
+</div>
+
+</body>
+</html>
