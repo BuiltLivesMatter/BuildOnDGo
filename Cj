@@ -1,0 +1,5 @@
+<!-- Omit http from path to ensure protocol is same as current request -->
+<script src="//js10.invoca.net/8/feed.js"></script>
+<script>
+  Invoca.affiliate_data_feed( 475050, 8 );
+</script>
