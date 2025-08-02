@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dispatch Coordinator Application</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 2rem;
+    }
+    .form-container {
+      background: white;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-top: 1rem;
+    }
+    input, textarea {
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Dispatch Coordinator Application</h2>
+    <form>
+      <label>Full Name</label>
+      <input type="text" name="name" required />
+
+      <label>Email Address</label>
+      <input type="email" name="email" required />
+
+      <label>Phone Number</label>
+      <input type="tel" name="phone" required />
+
+      <label>Address</label>
+      <input type="text" name="address" required />
+
+      <label>Tell us why you're a good fit for this role</label>
+      <textarea name="why" rows="4" required></textarea>
+
+      <label>Upload Resume (Optional)</label>
+      <input type="file" name="resume" />
+
+      <button type="submit">Submit Application</button>
+    </form>
+  </div>
+</body>
+</html>
