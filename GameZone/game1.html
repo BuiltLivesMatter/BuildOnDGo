@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flappy Bird Clone</title>
+  <style>
+    canvas { display: block; margin: 0 auto; background: #70c5ce; }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">Flappy Bird</h1>
+  <canvas id="flappy" width="320" height="480"></canvas>
+  <script>
+    const canvas = document.getElementById("flappy");
+    const ctx = canvas.getContext("2d");
+
+    let frames = 0;
+    const DEGREE = Math.PI / 180;
+
+    const sprite = new Image();
+    sprite.src = "https://openai-craft.s3.amazonaws.com/flappybird-sprite.png";
+
+    const state = {
+      current: 0,
+      getReady: 0,
+      game: 1,
+      over: 2
+    };
+
+    canvas.addEventListener("click", function() {
+      switch(state.current) {
+        case state.getReady:
+          state.current = state.game;
+          break;
+        case state.game:
+          bird.flap();
+          break;
+        case state.over:
+          pipes.reset();
+          bird.reset();
+          score.reset();
+          state.current = state.getReady;
+          break;
+      }
+    });
+
+    function draw() {
+      ctx.fillStyle = "#70c5ce";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      bird.draw();
+      pipes.draw();
+      score.draw();
+    }
+
+    function update() {
+      bird.update();
+      pipes.update();
+    }
+
+    function loop() {
+      update();
+      draw();
+      frames++;
+      requestAnimationFrame(loop);
+    }
+
+    const bird = {
+      animation: [ {sX: 276, sY: 112}, {sX: 276, sY: 139}, {sX: 276, sY: 164}, {sX: 276, sY: 139} ],
+      x: 50, y: 150, w: 34, h: 26,
+      frame: 0,
+      gravity: 0.25,
+      jump: 4.6,
+      speed: 0,
+      rotation: 0,
+      draw() {
+        let bird = this.animation[this.frame];
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.drawImage(sprite, bird.sX, bird.sY, this.w, this.h, -this.w/2, -this.h/2, this.w, this.h);
+        ctx.restore();
+      },
+      flap() { this.speed = -this.jump; },
+      update() {
+        this.period = state.current === state.getReady ? 10 : 5;
+        this.frame += frames % this.period === 0 ? 1 : 0;
+        this.frame = this.frame % this.animation.length;
+
+        if (state.current === state.getReady) {
+          this.y = 150;
+          this.rotation = 0;
+        } else {
+          this.speed += this.gravity;
+          this.y += this.speed;
+          if (this.y + this.h/2 >= canvas.height) {
+            this.y = canvas.height - this.h/2;
+            if (state.current === state.game) {
+              state.current = state.over;
+            }
+          }
+
+          this.rotation = this.speed >= this.jump ? 90 * DEGREE : -25 * DEGREE;
+        }
+      },
+      reset() {
+        this.speed = 0;
+        this.y = 150;
+      }
+    };
+
+    const pipes = {
+      position: [],
+      top: {sX: 553, sY: 0},
+      bottom: {sX: 502, sY: 0},
+      w: 53, h: 400,
+      gap: 85,
+      maxYPos: -150,
+      dx: 2,
+      draw() {
+        for (let i = 0; i < this.position.length; i++) {
+          let p = this.position[i];
+          let topY = p.y;
+          let bottomY = p.y + this.h + this.gap;
+          ctx.drawImage(sprite, this.top.sX, this.top.sY, this.w, this.h, p.x, topY, this.w, this.h);
+          ctx.drawImage(sprite, this.bottom.sX, this.bottom.sY, this.w, this.h, p.x, bottomY, this.w, this.h);
+        }
+      },
+      update() {
+        if (state.current !== state.game) return;
+
+        if (frames % 100 === 0) {
+          this.position.push({x: canvas.width, y: this.maxYPos * (Math.random() + 1)});
+        }
+
+        for (let i = 0; i < this.position.length; i++) {
+          let p = this.position[i];
+          p.x -= this.dx;
+
+          if (p.x + this.w <= 0) {
+            this.position.shift();
+            score.value++;
+            score.best = Math.max(score.best, score.value);
+          }
+        }
+      },
+      reset() { this.position = []; }
+    };
+
+    const score = {
+      best: parseInt(localStorage.getItem("best")) || 0,
+      value: 0,
+      draw() {
+        ctx.fillStyle = "#FFF";
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = 2;
+        ctx.font = "35px Teko";
+        ctx.fillText(this.value, canvas.width/2, 50);
+        ctx.strokeText(this.value, canvas.width/2, 50);
+      },
+      reset() {
+        this.value = 0;
+      }
+    };
+
+    loop();
+  </script>
+</body>
+</html>
