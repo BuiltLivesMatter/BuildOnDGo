@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Memory Match Game</title>
+  <style>
+    body { font-family: Arial; text-align: center; }
+    .grid { display: grid; grid-template-columns: repeat(4, 100px); gap: 10px; justify-content: center; margin-top: 20px; }
+    .card { width: 100px; height: 100px; background: #333; color: #fff; font-size: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .card.matched { background: green; }
+  </style>
+</head>
+<body>
+  <h1>Memory Match</h1>
+  <div class="grid" id="grid"></div>
+  <script>
+    const grid = document.getElementById("grid");
+    const symbols = ["🍎","🍌","🍇","🍓","🍒","🍉","🍍","🥝"];
+    const cards = [...symbols, ...symbols].sort(() => 0.5 - Math.random());
+
+    let selected = [];
+    let matched = [];
+
+    cards.forEach((symbol, index) => {
+      const div = document.createElement("div");
+      div.classList.add("card");
+      div.dataset.symbol = symbol;
+      div.dataset.index = index;
+      div.innerText = "";
+      div.addEventListener("click", () => {
+        if (div.classList.contains("matched") || selected.includes(index)) return;
+        div.innerText = symbol;
+        selected.push(index);
+        if (selected.length === 2) {
+          const [first, second] = selected;
+          if (cards[first] === cards[second]) {
+            document.querySelector(`[data-index='${first}']`).classList.add("matched");
+            document.querySelector(`[data-index='${second}']`).classList.add("matched");
+            matched.push(first, second);
+          } else {
+            setTimeout(() => {
+              document.querySelector(`[data-index='${first}']`).innerText = "";
+              document.querySelector(`[data-index='${second}']`).innerText = "";
+            }, 800);
+          }
+          selected = [];
+        }
+      });
+      grid.appendChild(div);
+    });
+  </script>
+</body>
+</html>
